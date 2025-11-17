@@ -1,0 +1,9 @@
+{
+  "name": "jp.keijiro.rtmidi.tests",
+  "version": "1.0.0",
+  "displayName": "RtMidi Tests",
+  "description": "Common assets for the RtMidi test suite.",
+  "unity": "2022.3",
+  "author": "Keijiro Takahashi",
+  "dependencies": { "jp.keijiro.rtmidi": "2.1.0" }
+}

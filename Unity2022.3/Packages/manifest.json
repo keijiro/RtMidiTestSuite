@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "jp.keijiro.rtmidi": "file:../../../jp.keijiro.rtmidi/Packages/jp.keijiro.rtmidi",
+    "jp.keijiro.rtmidi.tests": "file:../../jp.keijiro.rtmidi.tests"
+  }
+}

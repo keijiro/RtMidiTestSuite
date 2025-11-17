@@ -1,0 +1,18 @@
+{
+  "dependencies": {
+    "jp.keijiro.rtmidi": {
+      "version": "file:../../../jp.keijiro.rtmidi/Packages/jp.keijiro.rtmidi",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
+    "jp.keijiro.rtmidi.tests": {
+      "version": "file:../../jp.keijiro.rtmidi.tests",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "jp.keijiro.rtmidi": "2.1.0"
+      }
+    }
+  }
+}
