@@ -29,8 +29,17 @@ sealed class MidiOutTest : MonoBehaviour
     {
         for (var i = 0; i < _probe.PortCount; i++)
         {
-            var (dev, name) = (MidiOut.Create(), _probe.GetPortName(i));
+            var name = _probe.GetPortName(i);
+            if (!Util.IsValidPort(name))
+            {
+                _ports.Add((null, name));
+                continue;
+            }
+
+            var dev = MidiOut.Create();
+            dev.ErrorReceived = (t, msg) => OnError(name, t, msg);
             dev.OpenPort(i);
+
             _ports.Add((dev, name));
             AddLog($"Port opened: {name}");
         }
@@ -38,9 +47,12 @@ sealed class MidiOutTest : MonoBehaviour
 
     void CloseAllPorts()
     {
-        foreach (var p in _ports) p.dev.Dispose();
+        foreach (var p in _ports) p.dev?.Dispose();
         _ports.Clear();
     }
+
+    void OnError(string name, ErrorType type, string message)
+      => AddLog($"[{name}] Error {type}: {message}");
 
     #endregion
 
@@ -74,6 +86,7 @@ sealed class MidiOutTest : MonoBehaviour
 
     unsafe void SendNoteOn(MidiOut dev, int channel, int note, int velocity)
     {
+        if (dev == null) return;
         var msg = stackalloc byte[3]
           { (byte)(0x90 + channel), (byte)note, (byte)velocity };
         dev.SendMessage(new ReadOnlySpan<byte>(msg, 3));
@@ -81,6 +94,7 @@ sealed class MidiOutTest : MonoBehaviour
 
     unsafe void SendNoteOff(MidiOut dev, int channel, int note)
     {
+        if (dev == null) return;
         var msg = stackalloc byte[3]
           { (byte)(0x80 + channel), (byte)note, 64 };
         dev.SendMessage(new ReadOnlySpan<byte>(msg, 3));
@@ -88,6 +102,7 @@ sealed class MidiOutTest : MonoBehaviour
 
     unsafe void SendAllOff(MidiOut dev, int channel)
     {
+        if (dev == null) return;
         var msg = stackalloc byte[3]
           { (byte)(0xb0 + channel), 120, 0 };
         dev.SendMessage(new ReadOnlySpan<byte>(msg, 3));
