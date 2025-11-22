@@ -1,11 +1,9 @@
 using System.Linq;
 using UnityEngine;
-using Unity.Properties;
 using RtMidi;
 
 public sealed class MidiSystemTest : MonoBehaviour
 {
-    [CreateProperty]
     public string InfoText { get; private set; }
 
     void Start()

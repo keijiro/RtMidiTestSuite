@@ -1,7 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Properties;
 using RtMidi;
 
 sealed class MidiOutTest : MonoBehaviour
@@ -10,7 +10,6 @@ sealed class MidiOutTest : MonoBehaviour
 
     Queue<string> _logLines = new Queue<string>();
 
-    [CreateProperty]
     public string InfoText => string.Join("\n", _logLines);
 
     void AddLog(string line)
@@ -47,10 +46,10 @@ sealed class MidiOutTest : MonoBehaviour
 
     #region MIDI sequence sender
 
-    async Awaitable SendMidiSequenceAsync()
+    IEnumerator SendMidiSequenceCoroutine()
     {
         const float interval = 0.1f;
-        await Awaitable.WaitForSecondsAsync(interval);
+        yield return new WaitForSeconds(interval);
 
         foreach (var port in _ports)
             SendAllOff(port.dev, 0);
@@ -63,13 +62,13 @@ sealed class MidiOutTest : MonoBehaviour
             foreach (var port in _ports)
                 SendNoteOn(port.dev, 0, note, 100);
 
-            await Awaitable.WaitForSecondsAsync(interval);
+            yield return new WaitForSeconds(interval);
 
             AddLog("Note-Off " + note);
             foreach (var port in _ports)
                 SendNoteOff(port.dev, 0, note);
 
-            await Awaitable.WaitForSecondsAsync(interval);
+            yield return new WaitForSeconds(interval);
         }
     }
 
@@ -98,10 +97,10 @@ sealed class MidiOutTest : MonoBehaviour
 
     #region MonoBehaviour implementation
 
-    async Awaitable Start()
+    void Start()
     {
         _probe = MidiOut.Create();
-        await SendMidiSequenceAsync();
+        StartCoroutine(SendMidiSequenceCoroutine());
     }
 
     void Update()

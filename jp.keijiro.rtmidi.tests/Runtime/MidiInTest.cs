@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 using UnityEngine;
-using Unity.Properties;
 using RtMidi;
 
 sealed class MidiInTest : MonoBehaviour
@@ -17,7 +16,6 @@ sealed class MidiInTest : MonoBehaviour
 
     ConcurrentQueue<string> _logLines = new ConcurrentQueue<string>();
 
-    [CreateProperty]
     public string InfoText => string.Join("\n", _logLines);
 
     void AddLog(string line)

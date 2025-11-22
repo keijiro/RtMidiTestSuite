@@ -5,5 +5,5 @@
   "description": "Common assets for the RtMidi test suite.",
   "unity": "2022.3",
   "author": "Keijiro Takahashi",
-  "dependencies": { "jp.keijiro.rtmidi": "2.1.0" }
+  "dependencies": { "jp.keijiro.rtmidi": "2.1.0", "com.unity.modules.uielements": "1.0.0" }
 }
